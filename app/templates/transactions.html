@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Add Transaction</h2>
+  <form method="post">
+    <div class="grid">
+      <div><label>Type</label><select name="tx_type"><option value="income">Income</option><option value="expense">Expense</option></select></div>
+      <div><label>Amount</label><input type="number" step="0.01" name="amount" required></div>
+      <div><label>Date</label><input type="date" name="tx_date" value="{{ default_date }}"></div>
+      <div><label>Payment Method</label><input name="payment_method" placeholder="Cash, Bank, Mobile"></div>
+      <div><label>Category</label><input name="category" placeholder="Salary, Transport, etc"></div>
+      <div><label>Description</label><input name="description"></div>
+      <div><label>Food Deduction</label><select name="food_deduction"><option value="no">No</option><option value="yes">Yes</option></select></div>
+      <div><label>Other Cash Out</label><input type="number" step="0.01" name="other_cash_out" value="0"></div>
+    </div>
+    <h3>Manual Override (income only)</h3>
+    <div class="grid">
+      <div><label>Rent & Bills</label><input type="number" step="0.01" name="override_rent"></div>
+      <div><label>Groceries</label><input type="number" step="0.01" name="override_groceries"></div>
+      <div><label>Other Home</label><input type="number" step="0.01" name="override_other_home"></div>
+      <div><label>Savings</label><input type="number" step="0.01" name="override_savings"></div>
+      <div><label>Mini Savings</label><input type="number" step="0.01" name="override_mini_savings"></div>
+    </div>
+    <br><button type="submit">Save Transaction</button>
+  </form>
+</div>
+<div class="card">
+  <h2>Transaction History</h2>
+  <table>
+    <tr><th>Date</th><th>Type</th><th>Amount</th><th>Description</th><th>Category</th><th>Food $2</th><th>Allocatable</th></tr>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.tx_date }}</td>
+      <td>{{ row.tx_type }}</td>
+      <td>${{ '%.2f'|format(row.amount) }}</td>
+      <td>{{ row.description }}</td>
+      <td>{{ row.category }}</td>
+      <td>${{ '%.2f'|format(row.food_deduction_amount) }}</td>
+      <td>${{ '%.2f'|format(row.allocatable_amount) }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

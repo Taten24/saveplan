@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Monthly Reports</h2>
+  <table>
+    <tr><th>Month</th><th>Income</th><th>Expense</th><th>Food Deductions</th><th>Other Cash Out</th><th>Net</th></tr>
+    {% for row in monthly %}
+    {% set net = (row.income or 0) - (row.expense or 0) - (row.deductions or 0) - (row.other_cash_out or 0) %}
+    <tr>
+      <td>{{ row.ym }}</td>
+      <td>${{ '%.2f'|format(row.income or 0) }}</td>
+      <td>${{ '%.2f'|format(row.expense or 0) }}</td>
+      <td>${{ '%.2f'|format(row.deductions or 0) }}</td>
+      <td>${{ '%.2f'|format(row.other_cash_out or 0) }}</td>
+      <td>${{ '%.2f'|format(net) }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

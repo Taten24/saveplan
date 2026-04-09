@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Debt Tracker</h2>
+  <form method="post">
+    <div class="grid">
+      <div><label>Name</label><input name="name" required></div>
+      <div><label>Type</label><select name="debt_type"><option value="owed_to_me">Owed to Me</option><option value="i_owe">I Owe</option></select></div>
+      <div><label>Amount</label><input type="number" step="0.01" name="amount" required></div>
+      <div><label>Paid Amount</label><input type="number" step="0.01" name="paid_amount" value="0"></div>
+      <div><label>Due Date</label><input type="date" name="due_date"></div>
+      <div><label>Status</label><select name="status"><option value="open">Open</option><option value="partial">Partial</option><option value="paid">Paid</option></select></div>
+      <div style="grid-column:1/-1;"><label>Note</label><textarea name="note"></textarea></div>
+    </div>
+    <br><button type="submit">Save Debt</button>
+  </form>
+</div>
+<div class="card">
+  <table>
+    <tr><th>Name</th><th>Type</th><th>Amount</th><th>Paid</th><th>Due Date</th><th>Status</th><th>Note</th></tr>
+    {% for row in rows %}
+    <tr><td>{{ row.name }}</td><td>{{ row.debt_type }}</td><td>${{ '%.2f'|format(row.amount) }}</td><td>${{ '%.2f'|format(row.paid_amount) }}</td><td>{{ row.due_date or '' }}</td><td>{{ row.status }}</td><td>{{ row.note }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

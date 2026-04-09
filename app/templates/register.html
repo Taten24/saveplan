@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="max-width:420px;margin:auto;">
+  <h2>Register</h2>
+  <form method="post">
+    <label>Username</label><input name="username" required>
+    <label>Password</label><input type="password" name="password" required>
+    <br><br><button type="submit">Create account</button>
+  </form>
+  <p class="muted">The first account created becomes the app owner/admin.</p>
+</div>
+{% endblock %}

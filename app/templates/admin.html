@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Owner Control Panel</h2>
+  <p class="muted">From here you can freeze unpaid users, unfreeze them, or remove them completely.</p>
+  <table>
+    <tr><th>ID</th><th>Username</th><th>Role</th><th>Status</th><th>Transactions</th><th>Debts</th><th>Accounts</th><th>Actions</th></tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.status }}</td>
+      <td>{{ user.tx_count }}</td>
+      <td>{{ user.debt_count }}</td>
+      <td>{{ user.account_count }}</td>
+      <td>
+        {% if user.id != session.get('user_id') %}
+          {% if user.status == 'active' %}
+            <form class="inline-form" method="post" action="{{ url_for('freeze_user', user_id=user.id) }}"><button class="btn-warning" type="submit">Freeze</button></form>
+          {% else %}
+            <form class="inline-form" method="post" action="{{ url_for('unfreeze_user', user_id=user.id) }}"><button class="btn-secondary" type="submit">Unfreeze</button></form>
+          {% endif %}
+          <form class="inline-form" method="post" action="{{ url_for('delete_user', user_id=user.id) }}" onsubmit="return confirm('Delete this user and all their data?');"><button class="btn-danger" type="submit">Delete</button></form>
+        {% else %}
+          <span class="muted">Current owner</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

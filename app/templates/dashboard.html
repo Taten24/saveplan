@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid">
+  <div class="card"><div class="muted">Month Income</div><div class="kpi">${{ total_income }}</div></div>
+  <div class="card"><div class="muted">Month Expenses</div><div class="kpi">${{ total_expenses }}</div></div>
+  <div class="card"><div class="muted">Food Deductions</div><div class="kpi">${{ deductions }}</div></div>
+  <div class="card"><div class="muted">Net Position</div><div class="kpi">${{ net }}</div></div>
+  <div class="card"><div class="muted">Allocated</div><div class="kpi">${{ allocated }}</div></div>
+  <div class="card"><div class="muted">Still Needed</div><div class="kpi">${{ needed }}</div></div>
+</div>
+<div class="card">
+  <h2>Monthly Target Progress</h2>
+  <table>
+    <tr><th>Category</th><th>Target</th><th>Allocated</th><th>Remaining</th><th>Progress</th></tr>
+    {% for item in progress %}
+    <tr>
+      <td>{{ item.label }}</td>
+      <td>${{ '%.2f'|format(item.target) }}</td>
+      <td>${{ '%.2f'|format(item.allocated) }}</td>
+      <td>${{ '%.2f'|format(item.remaining) }}</td>
+      <td><div class="progress"><div class="bar" style="width: {{ item.percent if item.percent < 100 else 100 }}%;"></div></div></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
